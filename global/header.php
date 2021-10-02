@@ -13,7 +13,7 @@
         <link rel='stylesheet' href='<?php echo $css ?>all.css'>
         <link rel='stylesheet' href='<?php echo $css ?>hover-min.css'>
         <link rel='stylesheet' href='<?php echo $css ?>animate.css'>
-        <link rel='stylesheet' href='<?php echo $css ?>style.css'>
+        <link rel='stylesheet' href='<?php echo $css ?>main.css'>
         <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Scheherazade+New&display=swap'>
         <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Scheherazade+New&display=swap'>
         <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Roboto&display=swap'>
