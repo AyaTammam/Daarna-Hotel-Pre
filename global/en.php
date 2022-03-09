@@ -1,48 +1,131 @@
 <?php
-    function lang($phrase) {
-        static $lang = array(
-            // Page Header
-            'Home' => 'Home' ,
-            'About' => 'About' ,
-            'Work' => 'Work' ,
-            'Blog' => 'Blog' ,
-            'Contact' => 'Contact',
-            'LogIn' => 'LogIn',
-            'Menu' => 'Menu',
-            'Admin' => 'Admin',
-            'Control Panel' => 'Control Panel',
-            'Employees' => 'Employees',
-            'Add' => 'Add',
-            'Display' => 'Display',
-            'Floors' => 'Floors',
-            'Features' => 'Features',
-            'Services' => 'Services',
-            'Clients' => 'Clients',
-            'LogOut' => 'LogOut',
-            'A' => 'A',
+  $lang = array(
+    // Header
+    'Home' => 'Home' ,
+    'About' => 'About' ,
+    'Work' => 'Work' ,
+    'Blog' => 'Blog' ,
+    'Contact' => 'Contact',
+    'LogIn' => 'LogIn',
+    'Menu' => 'Menu',
+    'Admin' => 'Admin',
+    'ControlPanel' => 'Control Panel',
+    'Employees' => 'Employees',
+    'Floors' => 'Floors',
+    'Features' => 'Features',
+    'Services' => 'Services',
+    'Clients' => 'Clients',
+    'Logout' => 'Logout',
+    'SignIn' => 'Sign In',
 
-            // Page admin index
-            'Settings' => 'Settings',
+    // Admin Index Page
+    'Setting' => 'Setting',
+    'Total' => 'Total ',
+    'MoreDetails' => 'More Details',
 
-            // Page LogIn
-            'UserName' => 'UserName',
-            'Password' => 'Password',
-            'Sorry You Don\'t Have An Account' => 'Sorry You Don\'t Have An Account',
+    // settings And Processes
+    'Phone' => 'Phone',
+    'Email' => 'Email',
+    'MyProfile' => 'My Profile',
+    'Show' => 'Show',
+    'Edit' => 'Edit',
+    'Delete' => 'Delete',
+    'Block' => 'Block',
+    'Add' => 'Add',
+    'Display' => 'Display',
+    'Manage' => 'Manage ',
 
-            // Page Footer
-            'Daarna Hotel' => 'Daarna Hotel',
-            'information about the company' => 'information about the company',
-            'help' => 'help',
-            'information Office' => 'information Office',
-            'investor relations' => 'investor relations',
-            'Learn how a website works' => 'Learn how a website works',
-            'Terms and Conditions' => 'Terms and Conditions',
-            'Legal information' => 'Legal information',
-            'Privacy Notice' => 'Privacy Notice',
-            'Site Map' => 'Site Map',
-            'Copyrights' => 'Copyrights',
-            'all rights are save' => 'all rights are save',
-        );
-        return $lang[$phrase];
-    }
-    ?>
+    // Admin Floors Page
+    'Floor' => 'Floor',
+    'FloorId' => 'Floor ID',
+    'FlatCount' => 'Flat Count',
+    'AddedBy' => 'Added By',
+    'Processes' => 'Processes',
+    'NewFloor' => 'New Floor',
+    'RemoveAFloor' => 'Remove A Floor',
+    'ThereAreNoFloorsToDisplay' => 'There Are No Floors To Display',
+    'Warning:AreYouSureAboutThat' => 'Warning: Are You Sure About That',
+    'AddNow' => 'Add Now',
+
+    // Admin Flat Page
+    'Flats' => 'Flats',
+    'FlatId' => 'Flat ID',
+    'RoomsCount' => 'Rooms Count',
+    'View' => 'View',
+    'FlatArea' => 'Flat Area',
+    'NewFlat' => 'New Flat',
+    'Remove' => 'Remove',
+    'Processes' => 'Processes',
+    'North' => 'North',
+    'East' => 'East',
+    'South' => 'South',
+    'West' => 'West',
+    'NorthEast' => 'North East',
+    'EastSouth' => 'East South',
+    'SouthWest' => 'South West',
+    'WestNorth' => 'West North',
+    'MainImage' => 'Main Image',
+    'OtherImage' => 'Other Image',
+    'Close' => 'Close',
+    'Save' => 'Save',
+    'Warning' => 'Warning',
+    'Back' => 'Back',
+    'Quantity' => 'Quantity',
+    'Warning:NoHotelFeaturesHaveBeenIntroducedYet' => 'Warning: No Hotel Features Have Been Introduced Yet',
+
+    // Features Admin Page
+    'NewFeature' => 'New Feature',
+    'EditFeature' => 'Edit Feature',
+    'FeatureId' => 'Feature ID',
+    'FeatureName' => 'Feature Name',
+    'Details' => 'Details',
+    'Price' => 'Price',
+    'Room' => 'Room',
+    'Bath' => 'Bath',
+    'Bed' => 'Bed',
+    'TV' => 'TV',
+    'AC' => 'AC',
+    'Stove' => 'Stove',
+    'Oven' => 'Oven',
+    'Fridge' => 'Fridge',
+    'Laundry' => 'Laundry',
+    'Cooler' => 'Cooler',
+    'ThereAreNoFeaturesToDisplay' => 'There Are No Features To Display',
+    'ThisFeatureIsExsist' => 'This Feature Is Exsist',
+    'TheFeatureUsedInTheFlatCannotBeDeleted' => 'The Feature Used In The Flat Cann\'t Be Deleted',
+
+    // Employees Page
+    'EmpId' => 'Employee ID',
+    'NewEmployee' => 'New Employee',
+    'EditEmployee' => 'Edit Employee',
+    'ThereAreNoEmployeesToDisplay' => 'There Are No Employees To Display',
+    'ThisUserNameIsExsist' => 'This UserName Is Exsist',
+
+    // LogIn Page
+    'UserName' => 'UserName',
+    'Password' => 'Password',
+    'Sorry:ThereIsAnErrorInTheUserNameOrPassword' => 'Sorry: There Is An Error In The UserName Or Password',
+
+    // NotFound Page
+    'notFound' => 'Not Found',
+    'Error' => 'Error',
+    'GoBack' => 'Go Back',
+    'ThePageYouWereLookingForDoesNotExist,TheAddressMayBeMisspelled,OrThePageMayHaveBeenMovedOrDeleted.' => 'The Page You Were Looking For Does Not Exist, The Address May Be Misspelled, Or The Page May Have Been Moved Or Deleted.',
+    'ThePageDoesNotExist' => 'The Page Does Not Exist',
+    // الصفحة التي كنت تبحث عنها غير موجودة أو ربما أخطأت في كتابة العنوان أو ربما تكون الصفحة قد نُقِلت أو حُذِفت.
+
+    // Footer
+    'DaarnaHotel' => 'Daarna Hotel',
+    'InformationAboutTheCompany' => 'information about the company',
+    'Help' => 'Help',
+    'InformationOffice' => 'Information Office',
+    'InvestorRelations' => 'Investor Relations',
+    'LearnHowAWebsiteWorks' => 'Learn How A Website Works',
+    'TermsAndConditions' => 'Terms And Conditions',
+    'LegalInformation' => 'Legal Information',
+    'PrivacyNotice' => 'Privacy Notice',
+    'SiteMap' => 'Site Map',
+    'Copyrights' => 'Copyrights',
+    'AllRightsAreSave' => 'All Rights Are Save',
+  );
+?>
