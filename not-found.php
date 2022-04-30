@@ -15,7 +15,7 @@
   </nav>
   <!-- End Breadcrumb -->
   <!-- Start Section Error -->
-  <section class="text-center text-white my-5">
+  <section class="NotFound text-center my-5">
     <div class="container">
       <h1 class="display-1 m-0 fw-bold">
         <?php echo $lang['Error'];?>

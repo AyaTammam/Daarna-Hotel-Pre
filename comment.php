@@ -1,4 +1,19 @@
 <!-- Start Comment -->
+<!-- Css -->
+
+--color-BackgroundBody:#101214;
+  --color-BackgroundElement:#212529;
+  --color-InputBoxShadowSelect:#39393b;
+  --color-PrimaryText:#aa8220;
+  --color-SecondaryText:#eaeaea;
+
+  .form-floating { color: var(--color-TextForm);}
+  
+  .dt-top .dt-selector, .dt-bottom .dt-selector, .dt-input{
+  background-color: var(--color-InputBoxShadowSelect);
+  color: var(--color-SecondaryText);
+  border: none;
+}
 
 .navbar, .offcanvas, .modal-content, .navbar .user-icon, .offcanvas .user-icon,
 .offcanvas .offcanvas-body .nav-link,
@@ -17,7 +32,21 @@
 .offcanvas .offcanvas-body { width: 20rem; background-color: var(--color-background3); }
 
 .offcanvas .offcanvas-body { background-color: var(--color-background3); color: #EAEAEA; }
+<!-- Js -->
 
+/**
+    * Display Image For Carousel
+  */
+  $('#CarouselImage').on('change', function () 
+  {
+    if (parseInt($(this).get(0).files.length) > 3 || parseInt($(this).get(0).files.length) < 3)
+    {
+      $(this).val('');
+    }
+  });
+
+document.documentElement.style
+  .setProperty('--color-InputBoxShadowSelect', $(this).val());
 <!-- معلومات عن الشركة
   المكتب الاعلامي
   علاقات المستثمرين
@@ -79,7 +108,7 @@
                     <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
                   </svg>
                   <div>
-                    <?php echo lang('Sorry There Is An Error In The UserName Or Password'); ?>
+                    <?php echo $lang('Sorry There Is An Error In The UserName Or Password'); ?>
                   </div>
                   <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
@@ -168,16 +197,16 @@
             <?php 
               switch ($Array['FeatureId']) 
               {
-                case 1: echo lang('Room'); break;
-                case 2: echo lang('Bath'); break;
-                case 3: echo lang('Bed'); break;
-                case 4: echo lang('TV'); break;
-                case 5: echo lang('AC'); break;
-                case 6: echo lang('Stove'); break;
-                case 7: echo lang('Oven'); break;
-                case 8: echo lang('Fridge'); break;
-                case 9: echo lang('Laundry'); break;
-                default: echo lang('Cooler'); break;
+                case 1: echo $lang('Room'); break;
+                case 2: echo $lang('Bath'); break;
+                case 3: echo $lang('Bed'); break;
+                case 4: echo $lang('TV'); break;
+                case 5: echo $lang('AC'); break;
+                case 6: echo $lang('Stove'); break;
+                case 7: echo $lang('Oven'); break;
+                case 8: echo $lang('Fridge'); break;
+                case 9: echo $lang('Laundry'); break;
+                default: echo $lang('Cooler'); break;
               }; 
             ?>
           </td>
@@ -185,7 +214,7 @@
 					<td><?php echo $Array['Price']; ?></td>
 					<td><?php echo $Array['UserName']; ?></td>
 					<td>
-						<button class="ShowFlat text-white" data-bs-toggle="modal" data-bs-target="#confirmTheDelete<?php echo $Array['Id']; ?>" aria-label="<?php echo lang('Show'); ?>" data-balloon-pos="left">
+						<button class="ShowFlat text-white" data-bs-toggle="modal" data-bs-target="#confirmTheDelete<?php echo $Array['Id']; ?>" aria-label="<?php echo $lang('Show'); ?>" data-balloon-pos="left">
               <i class="fas fa-trash fs-5"></i>
 						</button>
 					</td>
@@ -195,7 +224,7 @@
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content bg-dark">
               <div class="modal-header">
-                <h5 class="modal-title text-warning" id="WarningTitle"><i class="fas fa-exclamation me-2 fs-5"></i><?php echo lang('Warning'); ?></h5>
+                <h5 class="modal-title text-warning" id="WarningTitle"><i class="fas fa-exclamation me-2 fs-5"></i><?php echo $lang('Warning'); ?></h5>
                 <button type="button" class="btn-close btn-close-white shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
@@ -204,13 +233,13 @@
                     <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
                   </svg>
                   <div class="text-light">
-                    <?php echo lang('Warning: Are You Sure About That'); ?>
+                    <?php echo $lang('Warning: Are You Sure About That'); ?>
                   </div>
                 </div>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php echo lang('Close'); ?></button>
-                <button type="button" class="btn btn-danger" id="RemoveFloor" data-bs-dismiss="modal"><?php echo lang('Delete'); ?></button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php echo $lang('Close'); ?></button>
+                <button type="button" class="btn btn-danger" id="RemoveFloor" data-bs-dismiss="modal"><?php echo $lang('Delete'); ?></button>
               </div>
             </div>
           </div>

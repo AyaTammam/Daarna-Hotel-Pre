@@ -20,17 +20,17 @@
     <!-- Start Table Features -->
     <section class="table-customize-feature my-3">
       <div class="container">
-        <h1 class="text-center text-light my-3"><?php echo $lang['Manage'] . $lang['Features']; ?></h1>
+        <h1 class="text-center my-3"><?php echo $lang['Manage'] . $lang['Features']; ?></h1>
         <!-- Start Modal For Add And Edit Feature -->
-        <button  type="submit" class="btn btn-success ButtonFormFeature my-2 hvr-forward shadow-none" id="ButtonFormFeature" data-bs-toggle="modal" data-bs-target="#comfirmAddAndEditFeature" data-balloon-pos="right" data-balloon-nofocus data-ball aria-label="<?php echo $lang['NewFeature']; ?>">
+        <button  type="submit" class="btn btn-success ButtonFormFeature my-2 hvr-forward shadow-none" id="ButtonFormFeature" data-bs-toggle="modal" data-bs-target="#comfirmAddAndEditFeature" data-balloon-pos="up" data-balloon-nofocus data-ball aria-label="<?php echo $lang['NewFeature']; ?>">
           <i class="fas fa-plus"></i>
         </button>
         <div class="modal fade CostumizeModalFeature" id="comfirmAddAndEditFeature" data-bs-keyboard="false" tabindex="-1" aria-labelledby="HeaderAddEditFeature" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered flex-column justify-content-center">
-            <div class="modal-content text-light" id="AddEditFeatureTemplate">
+            <div class="modal-content" id="AddEditFeatureTemplate">
               <div class="modal-header">
                 <h5 class="modal-title" id="HeaderAddEditFeature"><?php echo $lang['NewFeature']; ?></h5>
-                <button type="button" class="btn-close btn-close-white shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
                 <form class="row was-validated FormNewFeature" id="FormNewFeature">
@@ -55,11 +55,11 @@
                   </div>
                   <div class="col-md-12 mb-3">
                     <label for="Details" class="form-label"><?php echo $lang['Details']; ?></label>
-                    <textarea type="number" name="Details" class="form-control" id="Details" style="height: 150px; resize:none;" autocomplete="off" required></textarea>
+                    <textarea name="Details" class="form-control" id="Details" style="height: 150px; resize:none;" autocomplete="off" required></textarea>
                   </div>
                   <div class="modal-footer pt-2 pb-0">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php echo $lang['Close']; ?></button>
-                    <button type="submit" id="ButtonAddFeature" class="btn btn-primary"><?php echo $lang['Add']; ?></button>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"><?php echo $lang['Close']; ?></button>
+                    <button type="submit" id="ButtonAddFeature" class="btn btn-outline-success"><?php echo $lang['Add']; ?></button>
                   </div>
                 </form>
               </div>
@@ -73,43 +73,27 @@
             <div class="modal-content" id="DeleteFeatureTemplate">
               <div class="modal-header">
                 <h5 class="modal-title text-warning" id="WarningTitle"><i class="fas fa-exclamation me-2 fs-5"></i><?php echo $lang['Warning']; ?></h5>
-                <button type="button" class="btn-close btn-close-white shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
                 <div class="d-flex align-items-center" role="alert">
                   <svg class="mx-2 text-warning" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Warning:">
                     <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
                   </svg>
-                  <div class="text-light">
+                  <div class="content">
                     <?php echo $lang['Warning:AreYouSureAboutThat']; ?>
                   </div>
                 </div>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php echo $lang['Close']; ?></button>
-                <button type="button" class="btn btn-danger" id="ButtonRemoveFeature" ><?php echo $lang['Delete']; ?></button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"><?php echo $lang['Close']; ?></button>
+                <button type="button" class="btn btn-outline-danger" id="ButtonRemoveFeature" ><?php echo $lang['Delete']; ?></button>
               </div>
             </div>
           </div>
         </div>
         <!-- End Modal For Delete -->
-        <div class="table-responsive overflow-visible">
-          <table class="table table-dark table-hover table-bordered table-striped text-center">
-            <thead>
-              <tr>
-                <th scope="col"><?php echo $lang['FeatureId']; ?></th>
-                <th scope="col"><?php echo $lang['FeatureName']; ?></th>
-                <th scope="col"><?php echo $lang['Details']; ?></th>
-                <th scope="col"><?php echo $lang['Price']; ?></th>
-                <th scope="col"><?php echo $lang['AddedBy']; ?></th>
-                <th scope="col"><?php echo $lang['Processes']; ?></th>
-              </tr>
-            </thead>
-            <tbody class="responseFeature align-middle">
-  
-            </tbody>
-          </table>
-        </div>
+        <!-- Start Table -->
       </div>
     </section>
     <!-- End Table Features -->

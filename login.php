@@ -12,17 +12,17 @@
       <div class="overlay mb-0">
         <div class="container">
           <form class="Formlogin mx-auto my-5 was-validated" id="Formlogin">
-            <h4 class="text-center h2 p-2 text-white"><?php echo $lang['SignIn']; ?></h4>
+            <h4 class="text-center h2 p-2"><?php echo $lang['SignIn']; ?></h4>
             <div class="form-floating">
               <input type="name" class="form-control my-3" name="UserName" id="UserName" placeholder="UserName" autocomplete="off" required>
-              <label class="text-white" for="UserName"><?php echo $lang['UserName']; ?></label>
+              <label for="UserName"><?php echo $lang['UserName']; ?></label>
             </div>
             <div class="form-floating">
               <input type="password" class="form-control my-3" name="Password" id="Password" placeholder="Password" required>
-              <label class="text-white" for="Password"><?php echo $lang['Password']; ?></label>
+              <label for="Password"><?php echo $lang['Password']; ?></label>
             </div>
             <div class="vstack col mx-auto my-3">
-              <button class="btn btn-primary btn-lg" type="submit"><?php echo $lang['LogIn']; ?></button>
+              <button class="btn btn-lg" type="submit"><?php echo $lang['LogIn']; ?></button>
             </div>
           </form>
         </div>

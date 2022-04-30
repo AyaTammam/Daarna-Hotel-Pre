@@ -1,6 +1,7 @@
 <?php
 	session_start();
-	require 'en.php';
+	require 'lang.php';
+  $lang = $en;
 	$dsn = 'mysql:host=localhost;dbname=hotel';
 	$user ='root';
 	$pass = '';
@@ -15,12 +16,17 @@
 		echo $e->getMessage();
 	}
 
+  /**
+    *********************************
+    ******** Page Log In ************
+    *********************************
+  */
   // Check If User Coming From HTTP Post Request
   if (isset($_POST['LogIn'])) 
   {
     if (isset($_POST['UserName']) && isset($_POST['Password'])) 
     {
-      $employee = $con->prepare('SELECT * FROM employees WHERE UserName = ? AND Pass = ?');
+      $employee = $con->prepare('SELECT * FROM employees WHERE UserName = ? AND Pass = ? AND Block = "false"');
       $employee->execute(array($_POST['UserName'], SHA1($_POST['Password'])));
       // If Count > 0 This Mean The Database Contain Record About This User
       if ($employee->rowCount() > 0)
@@ -72,43 +78,35 @@
 		}
   }
 
+  /**********************************************************************
+    ********************************
+    ***** Handle Requset Floor *****
+    ********************************
+  */
 	/**
-	 * Show All Floors
-	 */
+    *********************************
+	  ******** Show All Floors ********
+    *********************************
+  */
 	if (isset($_POST['ShowFloor'])) 
 	{
 		$floorDisplay = $con->prepare('SELECT floors.FloorId, COUNT(flats.FlatId) AS FlatCount, employees.UserName FROM employees JOIN floors ON floors.AdminId = employees.EmpId LEFT JOIN flats ON floors.FloorId = flats.FloorId GROUP BY floors.FloorId');
 		$floorDisplay->execute();
 		if ($floorDisplay->rowCount() > 0) 
 		{
-			$Data = $floorDisplay->fetchAll();
-			foreach ($Data as $Array)
-			{
-				?>
-				<tr class="FloorsId">
-					<td><?php echo $Array['FloorId']; ?></td>
-					<td><?php echo $Array['FlatCount']; ?></td>
-					<td><?php echo $Array['UserName']; ?></td>
-					<td>
-						<a href="?Page=Flats&Id=<?php echo $Array['FloorId']; ?>" class="text-info" aria-label="<?php echo $lang['Show']; ?>" data-balloon-pos="left">
-              <i class="far fa-eye fs-5"></i>
-						</a>
-					</td>
-				</tr>
-				<?php
-			}
+      echo json_encode($floorDisplay->fetchAll());
 		}
 		else 
 		{
-			?>
-			<tr class="noFloor FloorsId"><td class="text-center" colspan="4"><?php echo $lang['ThereAreNoFloorsToDisplay']; ?></td></tr>
-			<?php
+      echo json_encode(array());
 		}
 	}
 
 	/**
-	 * Add New Floor
-	 */
+    **********************************
+	  ******** Add New Floor ***********
+    **********************************
+  */
 	if (isset($_POST['AddFloor'])) 
 	{
 		if(isset($_POST['FloorId']))
@@ -124,12 +122,29 @@
 	}
 
 	/**
-	 * Remove Last Floor Service
-	 */
+    *******************************
+	  ****** Remove Last Floor ******
+    *******************************
+  */
 	if (isset($_POST['RemoveFloor'])) 
 	{
 		if(isset($_POST['FloorId']))
 		{
+      $GetFlatsPhotos = $con->prepare("SELECT Images, MainImage FROM flats WHERE FloorId = ?");
+      $GetFlatsPhotos->execute(array($_POST['FloorId']));
+      if ($GetFlatsPhotos->rowCount() > 0) 
+      {
+        $Rows = $GetFlatsPhotos->fetchAll();
+        foreach ($Rows as $Row) 
+        {
+          $Images = explode(",", $Row['Images']);
+          $Images[] = $Row['MainImage'];
+          for ($i = 0; $i < COUNT($Images); $i++) 
+          {
+            unlink('../photos/' . $Images[$i]);
+          }
+        }
+      }
 			$DeleteFloor = $con->prepare('DELETE FROM floors WHERE FloorId = ?');
 			$DeleteFloor->execute(array($_POST['FloorId']));
 		}
@@ -139,18 +154,144 @@
 		}
 	}
 
+  /***********************************************************************
+    ********************************
+    ***** Handle Requset Flat *****
+    ********************************
+  */
+
   /**
-   * Show All Flat
-   */
+    **********************************
+    ***** GET Flats To Home Page *****
+    **********************************
+  */
+  if (isset($_POST['GETFlats']))
+  {
+    $Where = array();
+    $Having = array();
+    if (!empty($_POST['FloorId'])) 
+    {
+      $Where[] = "flats.FloorId = " . $_POST['FloorId'];
+    }
+    if (!empty($_POST['FlatId'])) 
+    {
+      $Where[] = "flats.FlatId = " . $_POST['FlatId'];
+    }
+    if (isset($_POST['View']) && $_POST['View'] != "All") 
+    {
+      $Where[] = "flats.View = '" . $_POST['View'] . "'";
+    }
+    if (!empty($_POST['RoomsCount'])) 
+    {
+      $Having[] = "RoomCount = " . $_POST['RoomsCount'];
+    }
+    if (!empty($_POST['BedsCount'])) 
+    {
+      $Having[] = "BedCount = " . $_POST['BedsCount'];
+    }
+    if (!empty($_POST['LowPrice']) && !empty($_POST['HeighPrice'])) 
+    {
+      $Having[] = "Price BETWEEN " . $_POST['LowPrice'] . " AND " . $_POST['HeighPrice'];
+    }
+    if (isset($_POST['Rate']) && $_POST['Rate'] > 0) 
+    {
+      $Having[] = "Rate = " . $_POST['Rate'];
+    }
+    $FlatDisplay = $con->prepare("SELECT 
+    (
+      SELECT SUM(Rooms.Quantity) FROM flat_features AS Rooms, hotel_features AS HotelRoom WHERE flats.FlatId = Rooms.FlatId 
+      AND flats.FloorId = Rooms.FloorId AND Rooms.FeatureId = HotelRoom.Id AND HotelRoom.FeatureId = 1
+    ) AS RoomCount,
+    (
+      SELECT SUM(Beds.Quantity) FROM flat_features AS Beds, hotel_features AS HotelBed WHERE flats.FlatId = Beds.FlatId 
+      AND flats.FloorId = Beds.FloorId AND Beds.FeatureId = HotelBed.Id AND HotelBed.FeatureId = 3
+    ) AS BedCount,
+    (
+      SELECT SUM(Price.Quantity * HotelPrice.Price) FROM flat_features AS Price, hotel_features AS HotelPrice WHERE flats.FlatId = Price.FlatId 
+      AND flats.FloorId = Price.FloorId AND Price.FeatureId = HotelPrice.Id
+    ) AS Price,
+    (
+      SELECT ROUND(AVG(booking.Rate)) FROM booking WHERE flats.FloorId = booking.FloorId AND flats.FlatId = booking.FlatId
+    ) AS Rate,
+    flats.* FROM flats " . (COUNT($Where) > 0 ? "WHERE " . implode(" AND ", $Where) : "") . 
+    " GROUP BY flats.FloorId, flats.FlatId " . (COUNT($Having) > 0 ? "HAVING " . implode(" AND ", $Having) : ""));
+    $FlatDisplay->execute();
+    if ($FlatDisplay->rowCount() > 0)
+    {
+      echo json_encode($FlatDisplay->fetchAll());
+    }
+    else 
+    {
+      echo json_encode(array());
+    }
+  }
+
+  /**
+    **********************************
+    ********* Show All Flat **********
+    **********************************
+  */
+  if (isset($_POST['ShowFlat']))
+  {
+    if (isset($_POST['FloorId'])) 
+    {
+      $FlatDisplay = $con->prepare('SELECT SUM(flat_features.Quantity) AS RoomsCount, flats.*, employees.UserName FROM employees JOIN flats ON flats.AdminId = employees.EmpId JOIN flat_features ON flats.FlatId = flat_features.FlatId AND flats.FloorId = flat_features.FloorId JOIN hotel_features ON flat_features.FeatureId = hotel_features.Id WHERE flats.FloorId = ? AND hotel_features.FeatureId = 1 GROUP BY  flat_features.FloorId, flat_features.FlatId');
+      $FlatDisplay->execute(array($_POST['FloorId']));
+      if ($FlatDisplay->rowCount() > 0)
+      {
+        echo json_encode($FlatDisplay->fetchAll());
+      }
+      else 
+      {
+        echo json_encode(array());
+      }
+    }
+    else
+    {
+      echo http_response_code(501);
+    }
+  }
 
 	/**
-	 * Add New Flat
-	 */
+    **********************************
+	  ********** Add New Flat **********
+    **********************************
+  */
 	if (isset($_POST['AddFlat']))
 	{
-		if (isset($_POST['FlatId']) && isset($_POST['Area']) && isset($_POST['View']) && isset($_FILES['MainImage']) && isset($_FILES['OtherImage'])) 
+		if (isset($_POST['FlatId']) && isset($_POST['FloorId']) && isset($_POST['Area']) && isset($_POST['View']) && isset($_FILES['MainImage']) && isset($_FILES['OtherImage']) && isset($_POST['Data'])) 
 		{
-			print_r($_FILES['MainImage']);
+      $GetFlatNumber = $con->prepare("SELECT * FROM flats WHERE FlatId = ? AND FloorId = ?");
+      $GetFlatNumber->execute(array($_POST['FlatId'], $_POST['FloorId']));
+      if ($GetFlatNumber->rowCount() == 0)
+      {
+        /*
+          * Upload Main Image
+        */
+        $mainImg = rand(0, 10000000) . "_" . $_FILES['MainImage']['name'];
+        move_uploaded_file($_FILES['MainImage']['tmp_name'], "../photos/" . $mainImg);
+  
+        /*
+          * Upload Other Images
+        */
+        for ($i = 0; $i < COUNT($_FILES['OtherImage']['name']); $i++)
+        { 
+          $otherImg[$i] = rand(0, 10000000) . "_" . $_FILES['OtherImage']['name'][$i];
+          move_uploaded_file($_FILES['OtherImage']['tmp_name'][$i], "../photos/" . $otherImg[$i]);
+        }
+        $CreateFlat = $con->prepare("INSERT INTO flats SET FloorId = ?, FlatId = ?, AdminId = ?, MainImage = ?, Images = ?, Area = ?, View = ?");
+        $CreateFlat->execute(array($_POST['FloorId'], $_POST['FlatId'], $_SESSION['AdminId'], $mainImg, implode(",", $otherImg), $_POST['Area'], $_POST['View']));
+        foreach ($_POST['Data'] as $key) 
+        {
+          $AddFlatFeatures = $con->prepare("INSERT INTO flat_features SET FeatureId = ?, FloorId = ?, FlatId = ?, Quantity = ?");
+          $AddFlatFeatures->execute(array($key['FeatureId'], $_POST['FloorId'], $_POST['FlatId'], $key['Quantity']));
+        }
+        echo true;
+      }
+      else
+      {
+        echo false;
+      }
 		}
 		else 
 		{
@@ -159,27 +300,69 @@
 	}
 
   /**
-   * Remove Flat
-   */
+    **********************************
+    *********** Remove Flat **********
+    **********************************
+  */
   if (isset($_POST['RemoveFlat'])) 
   {
-    # code...
+    if(isset($_POST['FloorId']) && isset($_POST['FlatId']))
+		{
+      $GetFlatsPhotos = $con->prepare("SELECT Images, MainImage FROM flats WHERE FloorId = ? AND FlatId = ?");
+      $GetFlatsPhotos->execute(array($_POST['FloorId'], $_POST['FlatId']));
+      $Rows = $GetFlatsPhotos->fetchAll();
+      foreach ($Rows as $Row) 
+      {
+        $Images = explode(",", $Row['Images']);
+        $Images[] = $Row['MainImage'];
+        for ($i = 0; $i < COUNT($Images); $i++) 
+        {
+          unlink('../photos/' . $Images[$i]);
+        }
+      }
+			$DeleteFlat = $con->prepare('DELETE FROM flats WHERE FloorId = ? AND FlatId = ?');
+			$DeleteFlat->execute(array($_POST['FloorId'], $_POST['FlatId']));
+		}
+		else 
+		{
+			echo http_response_code(501);
+		}
   }
 
   /**
-	 * Check If There Were Features for Hotel
-	 */
-	if (isset($_POST['CheckFeature'])) 
-	{
-		$GetHotelFeature = $con->prepare("SELECT COUNT(features.FeatureId) - COUNT(hotel_features.FeatureId) AS Count FROM features LEFT JOIN hotel_features ON features.FeatureId = hotel_features.FeatureId WHERE features.Type = 'Primary'");
-    $GetHotelFeature->execute();
-    $Count = $GetHotelFeature->fetchColumn();
-    echo $Count > 0 ? false : true;
-	}
+    *********************************************
+    * Get Primary Feature For Add Flta To Floor *
+    *********************************************
+  */
+  if (isset($_POST['GetFeatures']))
+  {
+    $GetPrimaryFeature = $con->prepare("SELECT hotel_features.Id, hotel_features.Details, features.FeatureId, features.FeatureName FROM hotel_features JOIN features ON features.FeatureId = hotel_features.FeatureId");
+    $GetPrimaryFeature->execute();
+    if ($GetPrimaryFeature->rowCount() > 0)
+    {
+      $Data = $GetPrimaryFeature->fetchAll();
+      foreach ($Data as $value) 
+      {
+        $Response[$value['FeatureName']][] = $value;
+      }
+      echo json_encode($Response);
+    }
+    else
+    {
+      echo json_encode(array());
+    }
+  }
 
+  /***************************************************************
+    ********************************
+    ***** Handle Requset Feature ***
+    ********************************
+  */
   /**
-   * Show All Feature
-   */
+    ********************************
+    ***** Show All Feature *********
+    ********************************
+  */
   if (isset($_POST['ShowFeature'])) 
   {
     $FeatureDisplay = $con->prepare('SELECT hotel_features.*, features.FeatureName, employees.UserName FROM employees JOIN hotel_features ON hotel_features.AdminId = employees.EmpId JOIN features ON hotel_features.FeatureId = features.FeatureId');
@@ -195,8 +378,10 @@
   }
 
   /**
-   * Add New Feature
-   */
+    ************************************
+    ******** Add New Feature ***********
+    ************************************
+  */
   if (isset($_POST['AddFeature'])) 
   {
     if (isset($_POST['FeatureName']) && isset($_POST['Price']) && isset($_POST['Details'])) 
@@ -221,8 +406,10 @@
   }
 
   /**
-   * Edit Feature
-   */
+    **********************************
+    ********** Edit Feature **********
+    **********************************
+  */
   if (isset($_POST['EditFeature'])) 
   {
     if (isset($_POST['Id']) && isset($_POST['FeatureId']) && isset($_POST['Price']) && isset($_POST['Details'])) 
@@ -247,8 +434,10 @@
   }
 
   /**
-   * Remove Feature
-   */
+    *******************************
+    ******* Remove Feature ********
+    *******************************
+  */
   if (isset($_POST['RemoveFeature'])) 
   {
     if (isset($_POST['Id'])) 
@@ -272,16 +461,114 @@
     }
   }
 
+  /****************************************************************
+    ********************************
+    ***** Handle Requset Setting ***
+    ********************************
+  */
   /**
-   * Show All Employees
-   */
+    *********************************
+    ****** Change Site Sittings *****
+    *********************************
+  */
+  if (isset($_POST['ChangeSiteSittings'])) 
+  {
+    if (isset($_FILES['LogoImage']) && isset($_POST['EnglishHotelName']) && isset($_POST['ArabicHotelName']) && isset($_POST['SiteColors']) && isset($_POST['PageColor']) && isset($_POST['ElementColor']) && isset($_POST['TextPrimaryColor']) && isset($_POST['TextSecondaryColor']) && isset($_POST['InputBoxShadowColor']) && isset($_POST['OldTheme']) && isset($_POST['NewTheme'])) 
+    {
+      /*
+        * Upload Logo
+      */
+      if (!empty($_FILES['LogoImage']['name']))
+      {
+        move_uploaded_file($_FILES['LogoImage']['tmp_name'], "../photos/logo.WebP");
+      }
+
+      /*
+        * Change Hotel Name
+      */
+      $Search = array();
+      $Replace = array();
+      if ($en['HotelName'] != $_POST['EnglishHotelName']) 
+      {
+        $Search[] = "'HotelName' => '" . $en['HotelName'] . "'";
+        $Replace[] = "'HotelName' => '" . $_POST['EnglishHotelName'] . "'";
+      }
+      if ($ar['HotelName'] != $_POST['ArabicHotelName']) 
+      {
+        $Search[] = "'HotelName' => '" . $ar['HotelName'] . "'";
+        $Replace[] = "'HotelName' => '" . $_POST['ArabicHotelName'] . "'";
+      }
+      if (COUNT($Search) > 0 && COUNT($Replace) > 0) 
+      {
+        file_put_contents('lang.php', str_replace($Search, $Replace, file_get_contents('lang.php')));
+      }
+      
+      /*
+        * Change Site Colors
+      */
+      $Search = array();
+      $Replace = array();
+      if (!in_array($_POST['PageColor'], $_POST['SiteColors'])) 
+      {
+        $Search[] = "--color-BackgroundBody:" . $_POST['SiteColors'][0];
+        $Replace[] = "--color-BackgroundBody:" . $_POST['PageColor'];
+      }
+      if (!in_array($_POST['ElementColor'], $_POST['SiteColors'])) 
+      {
+        $Search[] = "--color-BackgroundElement:" . $_POST['SiteColors'][1];
+        $Replace[] = "--color-BackgroundElement:" . $_POST['ElementColor'];
+      }
+      if (!in_array($_POST['TextPrimaryColor'], $_POST['SiteColors'])) 
+      {
+        $Search[] = "--color-PrimaryText:" . $_POST['SiteColors'][2];
+        $Replace[] = "--color-PrimaryText:" . $_POST['TextPrimaryColor'];
+      }
+      if (!in_array($_POST['TextSecondaryColor'], $_POST['SiteColors'])) 
+      {
+        $Search[] = "--color-SecondaryText:" . $_POST['SiteColors'][3];
+        $Replace[] = "--color-SecondaryText:" . $_POST['TextSecondaryColor'];
+      }
+      if (!in_array($_POST['InputBoxShadowColor'], $_POST['SiteColors'])) 
+      {
+        $Search[] = "--color-InputBoxShadowSelect:" . $_POST['SiteColors'][4];
+        $Replace[] = "--color-InputBoxShadowSelect:" . $_POST['InputBoxShadowColor'];
+      }
+      if (COUNT($Search) > 0 && COUNT($Replace) > 0) 
+      {
+        file_put_contents('../styles/main.css', str_replace($Search, $Replace, file_get_contents('../styles/main.css')));
+      }
+
+      /*
+        * Change Table Theme
+      */
+      if ($_POST['OldTheme'] != $_POST['NewTheme']) 
+      {
+        file_put_contents('../scripts/new.js', str_replace("TableTheme = '" . $_POST['OldTheme'] . "'", "TableTheme = '" . $_POST['NewTheme'] . "'", file_get_contents('../scripts/new.js')));
+      }
+    }
+    else
+    {
+      echo http_response_code(501);
+    }
+  }
+
+  /*************************************************************************
+    ********************************
+    *** Handle Requset Employees ***
+    ********************************
+  */
+  /**
+    *********************************
+    ****** Show All Employees *******
+    *********************************
+  */
   if (isset($_POST['ShowEmployees'])) 
   {
-    $EmployeesDisplay = $con->prepare('SELECT Reception.UserName, Reception.EmpId, employees.UserName AS AddedBy FROM employees AS Reception, employees WHERE Reception.AdminId = employees.EmpId and Reception.Job = "Reception"');
+    $EmployeesDisplay = $con->prepare('SELECT Reception.*, employees.UserName AS AddedBy FROM employees AS Reception, employees WHERE Reception.AdminId = employees.EmpId and Reception.Job = "Reception"');
 		$EmployeesDisplay->execute();
 		if ($EmployeesDisplay->rowCount() > 0) 
 		{
-			echo json_encode($EmployeesDisplay->fetchAll());
+      echo json_encode($EmployeesDisplay->fetchAll());
 		}
 		else 
 		{
@@ -290,8 +577,10 @@
   }
 
   /**
-   * Add New Employees
-   */
+    **********************************
+    ****** Add New Employees *********
+    *********************************
+  */
   if (isset($_POST['AddEmployees'])) 
   {
     if(isset($_POST['UserName']) && isset($_POST['Password']))
@@ -316,8 +605,10 @@
   }
 
   /**
-   * Edit Employees
-   */
+    ************************************
+    ******** Edit Employees ************
+    ************************************
+  */
   if (isset($_POST['EditEmployees'])) 
   {
     if(isset($_POST['EmpId']) && isset($_POST['UserName']) && isset($_POST['Password']))
@@ -350,7 +641,122 @@
 			echo http_response_code(501);
 		}
   }
-  
+
+  /**
+    ************************************
+    ******** Block Employees ***********
+    ************************************
+  */
+  if (isset($_POST['BlockEmployee']))
+  {
+    if (isset($_POST['id']))
+    {
+      $BlockEmployee = $con->prepare("UPDATE employees SET Block = 'true' WHERE EmpId = ?");
+      $BlockEmployee->execute(array($_POST['id']));
+      echo $BlockEmployee->rowCount() > 0 ? true : false;
+    }
+    else
+    {
+      echo http_response_code(501);
+    }
+    
+  }
+
+  /**
+    ************************************
+    ******** UnBlock Employees ***********
+    ************************************
+  */
+  if (isset($_POST['UnBlockEmployee']))
+  {
+    if (isset($_POST['id']))
+    {
+      $UnBlockEmployee = $con->prepare("UPDATE employees SET Block = 'false' WHERE EmpId = ?");
+      $UnBlockEmployee->execute(array($_POST['id']));
+      echo $UnBlockEmployee->rowCount() > 0 ? true : false;
+    }
+    else
+    {
+      echo http_response_code(501);
+    }
+    
+  }
+
+  /*************************************************************************
+    ********************************
+    *** Handle Requset Services ***
+    ********************************
+  */
+  /**
+    *********************************
+    ****** Show All Services *******
+    *********************************
+  */
+  if (isset($_POST['ShowServices'])) 
+  {
+    $ServicesDisplay = $con->prepare('SELECT employees.UserName, services.* FROM services, employees WHERE services.AdminId = employees.EmpId');
+		$ServicesDisplay->execute();
+		if ($ServicesDisplay->rowCount() > 0) 
+		{
+      echo json_encode($ServicesDisplay->fetchAll());
+		}
+		else 
+		{
+			echo json_encode(array());
+		}
+  }
+
+  /**
+    *******************************
+    ******* Add New Service *******
+    *******************************
+  */
+  if (isset($_POST['AddService']))
+  {
+    if (isset($_POST['ServiceName']))
+    {
+      $CheckIfExsist = $con->prepare("SELECT * FROM services WHERE ServiceName = ?");
+      $CheckIfExsist->execute(array($_POST['ServiceName']));
+      if($CheckIfExsist->rowCount() > 0)
+      {
+        echo false;
+      }
+      else 
+      {
+        $InsertService = $con->prepare("INSERT INTO services SET ServiceName = ?, AdminId = ?");
+        $InsertService->execute(array($_POST['ServiceName'], $_SESSION['AdminId']));
+        echo true;
+      }
+    }
+    else
+    {
+      echo http_response_code(501);
+    }
+  }
+
+  /**
+    *******************************
+    ******* Remove Service *******
+    *******************************
+  */
+  if (isset($_POST['RemoveService']))
+  {
+    if (isset($_POST['Id'])) 
+    {
+      $RemoveService = $con->prepare(("DELETE FROM services WHERE serviceId = ?"));
+      $RemoveService->execute(array($_POST['Id']));
+    }
+    else
+    {
+      echo http_response_code(501);
+    }
+  }
+
+  /***************************************************************
+    ********************************
+    ******** Handle Function *******
+    ********************************
+  */
 	/*
 	** Function To Count Number Of Items Rows
 	** $item = The Item To Count

@@ -8,7 +8,6 @@
     'Contact' => 'Contact',
     'LogIn' => 'LogIn',
     'Menu' => 'Menu',
-    'Admin' => 'Admin',
     'ControlPanel' => 'Control Panel',
     'Employees' => 'Employees',
     'Floors' => 'Floors',
@@ -17,9 +16,12 @@
     'Clients' => 'Clients',
     'Logout' => 'Logout',
     'SignIn' => 'Sign In',
+    'ChangePassword' => 'Change Password',
+    'SiteStyle' => 'Site Style',
+    'SiteSettings' => 'Site Settings',
 
     // Admin Index Page
-    'Setting' => 'Setting',
+    'Settings' => 'Settings',
     'Total' => 'Total ',
     'MoreDetails' => 'More Details',
 
@@ -32,8 +34,23 @@
     'Delete' => 'Delete',
     'Block' => 'Block',
     'Add' => 'Add',
-    'Display' => 'Display',
+    'TableTheme' => 'Table Theme',
+    'SiteInformation' => 'Site Information',
     'Manage' => 'Manage ',
+    'First' => 'First',
+    'Next' => 'Next',
+    'Last' => 'Last',
+    'cell' => 'cell',
+    'ChoosePageColor' => 'Choose Page Color',
+    'ChooseElementColor' => 'Choose Element Color',
+    'ChooseTextPrimaryColor' => 'Choose Text Primary Color',
+    'ChooseTextSecondaryColor' => 'Choose Text Secondary Color',
+    'ChooseInputBoxShadowColor' => 'Choose Input And BoxShadow Color',
+    'ChooseSelectColor' => 'Choose Select Color',
+    'ChooseYourLogo' => 'Choose Your Logo',
+    'EnglishHotelName' => 'English Hotel Name',
+    'ArabicHotelName' => 'Arabic Hotel Name',
+    'ChooseYourColor' => 'Choose Your Color',
 
     // Admin Floors Page
     'Floor' => 'Floor',
@@ -43,19 +60,16 @@
     'Processes' => 'Processes',
     'NewFloor' => 'New Floor',
     'RemoveAFloor' => 'Remove A Floor',
-    'ThereAreNoFloorsToDisplay' => 'There Are No Floors To Display',
     'Warning:AreYouSureAboutThat' => 'Warning: Are You Sure About That',
     'AddNow' => 'Add Now',
 
-    // Admin Flat Page
+    // Flat Admin Page
     'Flats' => 'Flats',
     'FlatId' => 'Flat ID',
     'RoomsCount' => 'Rooms Count',
     'View' => 'View',
     'FlatArea' => 'Flat Area',
     'NewFlat' => 'New Flat',
-    'Remove' => 'Remove',
-    'Processes' => 'Processes',
     'North' => 'North',
     'East' => 'East',
     'South' => 'South',
@@ -69,12 +83,16 @@
     'Close' => 'Close',
     'Save' => 'Save',
     'Warning' => 'Warning',
-    'Back' => 'Back',
     'Quantity' => 'Quantity',
     'Warning:NoHotelFeaturesHaveBeenIntroducedYet' => 'Warning: No Hotel Features Have Been Introduced Yet',
+    'FlatFeatures:' => 'Flat Features:',
+    'Rooms' => 'Rooms',
+    'Bathrooms' => 'Bathrooms',
+    'Beds' => 'Beds',
 
     // Features Admin Page
     'NewFeature' => 'New Feature',
+    'AddFeature' => 'Add Feature',
     'EditFeature' => 'Edit Feature',
     'FeatureId' => 'Feature ID',
     'FeatureName' => 'Feature Name',
@@ -90,7 +108,6 @@
     'Fridge' => 'Fridge',
     'Laundry' => 'Laundry',
     'Cooler' => 'Cooler',
-    'ThereAreNoFeaturesToDisplay' => 'There Are No Features To Display',
     'ThisFeatureIsExsist' => 'This Feature Is Exsist',
     'TheFeatureUsedInTheFlatCannotBeDeleted' => 'The Feature Used In The Flat Cann\'t Be Deleted',
 
@@ -98,8 +115,12 @@
     'EmpId' => 'Employee ID',
     'NewEmployee' => 'New Employee',
     'EditEmployee' => 'Edit Employee',
-    'ThereAreNoEmployeesToDisplay' => 'There Are No Employees To Display',
     'ThisUserNameIsExsist' => 'This UserName Is Exsist',
+
+    // Services Page
+    'ServicesId' => 'Services Id',
+    'ServiceName' => 'Service Name',
+    'NewService' => 'New Service',
 
     // LogIn Page
     'UserName' => 'UserName',
@@ -112,10 +133,9 @@
     'GoBack' => 'Go Back',
     'ThePageYouWereLookingForDoesNotExist,TheAddressMayBeMisspelled,OrThePageMayHaveBeenMovedOrDeleted.' => 'The Page You Were Looking For Does Not Exist, The Address May Be Misspelled, Or The Page May Have Been Moved Or Deleted.',
     'ThePageDoesNotExist' => 'The Page Does Not Exist',
-    // الصفحة التي كنت تبحث عنها غير موجودة أو ربما أخطأت في كتابة العنوان أو ربما تكون الصفحة قد نُقِلت أو حُذِفت.
 
     // Footer
-    'DaarnaHotel' => 'Daarna Hotel',
+    'HotelName' => 'Daarna Hotel',
     'InformationAboutTheCompany' => 'information about the company',
     'Help' => 'Help',
     'InformationOffice' => 'Information Office',
@@ -127,5 +147,14 @@
     'SiteMap' => 'Site Map',
     'Copyrights' => 'Copyrights',
     'AllRightsAreSave' => 'All Rights Are Save',
+
+    //Table
+    'Search' => 'Search',
+    'ElemnetsOnEachPage' => 'Elemnets On Each Page',
+    'ThereAreNoResult' => 'There Are No Result',
+    'From' => 'From',
+    'OutOf' => 'Out Of',
+    'Records' => 'Records',
+    'Searched' => 'Searched',
   );
 ?>

@@ -4,12 +4,9 @@
 {
   --color-BackgroundBody:#101214;
   --color-BackgroundElement:#212529;
-  --color-BoxShadow:#e9e1e126;
-  --color-Input:#39393b;
-  --color-ScrollbarTrack: #10121466;
-  --color-ScrollbarThumb: #aa822080;
-  --color-PrimaryText:#AA8220;
-  --color-SecondaryText:#EAEAEA;
+  --color-InputBoxShadowSelect:#39393b;
+  --color-PrimaryText:#aa8220;
+  --color-SecondaryText:#eaeaea;
 }
 
 body {
@@ -26,11 +23,11 @@ body {
 
 ::-webkit-scrollbar { width: 7px;}
 
-::-webkit-scrollbar-track { background-color: var(--color-ScrollbarTrack); box-shadow: 0 0.5rem 1rem var(--color-BoxShadow) inset;}
+::-webkit-scrollbar-track { background-color: var(--color-BackgroundBody); box-shadow: 0 0.5rem 0.5rem var(--color-BackgroundElement) inset;}
 
-::-webkit-scrollbar-thumb { background-color: var(--color-ScrollbarThumb); border-radius: 30%;}
+::-webkit-scrollbar-thumb { background-color: var(--color-PrimaryText); border-radius: 20%;}
 
-::-webkit-scrollbar-thumb:hover { background-color: var(--color-PrimaryText);}
+::-webkit-scrollbar-thumb:hover { background-color: var(--color-SecondaryText);}
 
 #scroll-top
 {
@@ -49,8 +46,9 @@ body {
 
 .navbar .navbar-brand img{ width: 70px; }
 
+.navbar .user-icon,
 .breadcrumb .breadcrumb-link,
-.navbar-nav .nav-link { color: var(--color-PrimaryText) !important; }
+.navbar-nav .nav-link { color: var(--color-PrimaryText); }
 
 .breadcrumb .breadcrumb-link:hover,
 .breadcrumb .breadcrumb-link.active,
@@ -59,55 +57,84 @@ body {
 .navbar-nav .nav-link.active,
 .navbar-nav .nav-link:hover { color: var(--color-SecondaryText) !important; }
 
-/************************************
-******** Start Offcanvas ********** */
+/*
+***********************************
+******** Start Offcanvas ********** 
+***********************************
+*/
 
-.offcanvas.offcanvas-start { width: 20rem;}
+.offcanvas.offcanvas-start,
+.offcanvas .offcanvas-body .accordion-item { width: 20rem;}
 
 .offcanvas .offcanvas-header {
-  border-bottom: 2px dotted var(--color-BackgroundBody) !important;
   background-image: url("../photos/cloud.webp") !important;
 }
 
+/*
+********************************
+****** Group SeconderText ******
+********************************
+*/
+.SectionFlatsShow,
+.SectionFlatsShow .accordion-button,
+.SectionFlatsShow .card-footer a, /* HomePage */
+.SiteSettings #CustomImageLogo,
+.navbar-toggler, /* Navbar */
 .offcanvas .offcanvas-header h5,
-.offcanvas .offcanvas-footer .nav-link { color: var(--color-SecondaryText); }
+.offcanvas .nav-link,
+.offcanvas .offcanvas-body .accordion-item .one,
+.pageLogin, .NotFound, .MyProfile, .SiteSettings, .statsAdmin, .statsAdmin .card-footer a,
+.table-customize-employees, .table-customize-floor, .modal-body .content /* .table-customize-floor */,
+.table-customize-flat, .SectionAddFlat, .SectionAddFlat .FormNewFlat, .ComfirmAddFeatureToFlat .modal-content,
+.table-customize-feature, .CostumizeModalFeature .modal-content /* .table-customize-feature */,
+.table-customize-employees, .CostumizeModalEmployees .modal-content /* CostumizeModalEmployees */,
+.table-customize-services, .ComfirmAddService, /* .table-customize-services */
+.accordionAddFeaturesFlat .accordion-item, .accordionAddFeaturesFlat .accordion-button /* Flat Page */ { color: var(--color-SecondaryText); }
 
-.navbar .user-icon,
-.offcanvas .user-icon {
-  width: 70px;
-  height: 70px;
-  font-size: 3rem;
-  color: var(--color-PrimaryText);
-}
+.modal-footer, .card-footer { border-top-color: var(--color-SecondaryText);}
 
-.offcanvas .offcanvas-body .nav-link {
-  width: 100%;
-  color: var(--color-SecondaryText);
-  background-color: var(--color-BackgroundElement);
-}
+.modal-header { border-bottom-color: var(--color-SecondaryText);}
 
+.offcanvas .user-icon { width: 70px; height: 70px; font-size: 3rem; }
+
+.offcanvas .user-icon,
+.offcanvas .offcanvas-body .accordion-item .one:hover,
+.offcanvas-body .accordion-button:hover::after,
+.offcanvas-body .accordion-button.active::after,
+.offcanvas .offcanvas-body .accordion-item .one.active,
+.offcanvas .offcanvas-body .accordion-item .one[aria-expanded=true],
 .offcanvas .nav-link:hover,
 .offcanvas .offcanvas-body .nav-link.active {
   color: var(--color-PrimaryText) !important;
   background-color: var(--color-BackgroundBody) !important;
 }
 
-.offcanvas .offcanvas-footer { width: 100%; background-color: var(--color-BackgroundElement); }
+.SectionFlatsShow .accordion-button::after,
+.offcanvas-body .accordion-button::after {
+  font: var(--fa-font-solid);
+  content: "\f078";
+  background-image: none;
+  color: var(--color-SecondaryText);
+}
+
+.SectionFlatsShow .accordion-button:not(.collapsed)::after,
+.offcanvas-body .accordion-button:not(.collapsed)::after {
+  font: var(--fa-font-solid);
+  content: "\f078";
+  background-image: none;
+  color: var(--color-PrimaryText);
+}
+
+.offcanvas .offcanvas-footer { width: 100%;}
 
 .ImgLogIn { margin-left: 0 !important;}
 
 @media (max-width: 575.98px) {
-  .navbar .side {
-    position: fixed;
-    top: 15px;
-  }
+  .navbar .side { position: fixed; top: 35px; }
 }
 
 @media (min-width: 576px) and (max-width: 991px) {
-  .navbar .side {
-    position: fixed;
-    top: 15px;
-  }
+  .navbar .side { position: fixed; top: 35px; }
 }
 
 /* End Navbar */
@@ -120,19 +147,19 @@ body {
 
 .pageLogin .Formlogin .form-control,
 .pageLogin .Formlogin .btn:hover,
-.pageLogin .Formlogin .btn:focus { box-shadow: 0 0.5rem 1rem var(--color-BoxShadow) inset; }
+.pageLogin .Formlogin .btn:focus { box-shadow: 0 0.5rem 1rem var(--color-InputBoxShadowSelect) inset; }
 
 .pageLogin .Formlogin .btn {
   background-color: var(--color-PrimaryText);
   border-color: var(--color-PrimaryText);
-  color: var(--color-BackgroundBody);
+  color: var(--color-SecondaryText);
 }
 
 .Formlogin .form-control,
 .pageLogin .alert-danger {
   color: var(--color-SecondaryText) !important;
-  background-color: var(--color-BackgroundBody) !important;
-  border-color: var(--color-BackgroundBody) !important;
+  background-color: #10121499 !important;
+  border-color: #10121499 !important;
 }
 
 .pageLogin .ErrorLogIn { color: var(--color-PrimaryText); }
@@ -143,18 +170,96 @@ body {
 
 .statsAdmin .card { transition: all 0.3s ease-in-out; }
 
-/* Customize Box Shadow */
+/*
+***************************
+** Customize Box Shadow **
+***************************
+*/
+.SectionFlatsShow .card:hover,
 .navBredcrumb,
-.statsAdmin .card:hover { box-shadow: 0 0.5rem 1rem var(--color-BoxShadow) !important;}
+.statsAdmin .card:hover { box-shadow: 0 0.5rem 1rem var(--color-InputBoxShadowSelect);}
 
 /* End Index Admin */
 
+/* Start Settings Admin */
+
+.FormSiteStyle .DisplayImage { width: 250px; }
+
+/*
+**********************************
+********** Nav & Tab *************
+**********************************
+*/
+.nav-tabs { border-bottom-color: var(--color-SecondaryText) !important; }
+
+.nav-tabs .nav-link.active {
+  color: var(--color-SecondaryText);
+  background-color: var(--color-BackgroundElement);
+  border-bottom: none;
+  border-color: var(--color-SecondaryText);
+}
+
+.nav-tabs .nav-link { color: var(--color-PrimaryText); }
+
+.nav-tabs .nav-link:focus { border-bottom: none; }
+
+.nav-tabs .nav-link:hover { color: var(--color-SecondaryText); border-color: var(--color-SecondaryText);}
+
+/*
+  ********************************
+  ** Customize Input Type Color **
+  ********************************
+*/
+input[type = "color"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 75%;
+  background-color: transparent !important;
+  border: none;
+}
+
+input[type = 'color']::-webkit-color-swatch-wrapper { padding: 0; }
+
+input[type = 'color']::-webkit-color-swatch {
+  border-radius: 5px;
+  box-shadow: 0 0 20px 5px #0000002a;
+}
+
+input[type = 'color']::-moz-color-swatch {
+  border-radius: 5px;
+  box-shadow: 0 0 20px 5px #0000002a;
+}
+
+.FormSiteStyle .ThemeColor { text-align: -webkit-center; }
+
+.FormSiteStyle .Theme {
+  content: '';
+  width: 50px;
+  height: 50px;
+  border: 1px solid black;
+}
+
+/* End Settings Admin */
+
 /* Start Floors Admin */
 
-.table-customize-floor .responseFloor a:hover,
-.table-customize-feature .responseFeature a:hover, /* .DeleteAnyFeature */
-.table-customize-employees .responseEmployees a:hover { color: var(--color-SecondaryText) !important; } /* Employee */
+/*
+  * Customize Bottom Processes
+*/
+.DeleteAnyServices:hover,
+.DeleteAnyFeatureFromFlat:hover,
+.LinkShowFlats:hover,
+.LinkShowFlat:hover,
+.DeleteAnyFlat:hover,
+.DeleteAnyFeature:hover,
+.EditAnyFeature:hover,
+.EditAnyEmployee:hover,
+.BlockAnyEmployee:hover { color: var(--color-SecondaryText) !important; }
 
+.SectionFlatsShow .card-body svg,
+.ButtonFormAddServices:hover,
+.BottomAddFeatuerToFlat:hover,
 .table-customize-floor .ButtonAddFloor:hover,
 .table-customize-floor .ButtonRemoveFloor:hover,
 .table-customize-floor .ShowFlat:hover,
@@ -162,58 +267,105 @@ body {
 .table-customize-feature .ButtonFormFeature:hover,
 .table-customize-employees .ButtonFormEmployees:hover {color: var(--color-PrimaryText);}
 
+.accordion-body .FormSearch .fa-star { cursor: pointer;} 
+
+.fa-star { color: #aa8220;} 
+
 /* End Floors Admin */
 
 /* Start Add Flat */
 
-/* Customize Input */
-.FormNewEmployees input,
-.FormNewFeature input,
-.FormNewFeature select,
-.FormNewFeature textarea,
-.settingForm input,
-.FormNewFlat input,
-.FormNewFlat select { 
-  background-color: var(--color-Input) !important;
-  color: var(--color-SecondaryText) !important;
-  border:none;
+/*
+  ********************************
+  ****** Customize Input *********
+  ********************************
+*/
+input:not([type = 'color']),
+textarea,
+select { 
+background-color: var(--color-InputBoxShadowSelect) !important;
+color: var(--color-SecondaryText) !important;
+border:none !important;
 }
 
+.SectionFlatsShow select,
+.FormAddFeature select,
+.FormNewService select,
 .FormNewFeature select,
-.FormNewFlat select {
+.FormNewFlat #View {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='%23FFFFFF'%3E%3Cpath d='M18.2 7.6c-.4 0-.7.1-.9.4L13 12.6c-.5.5-1.4.5-1.9 0L6.8 8c-.3-.2-.6-.4-1-.4-1.1 0-1.7 1.3-.9 2.1l6.2 6.8c.5.6 1.4.6 1.9 0l6.2-6.8c.6-.8 0-2.1-1-2.1z'%3E%3C/path%3E%3C/g%3E%3C/svg%3E") !important;
   background-size: 20px 20px !important;
   cursor: pointer;
   pointer-events: painted;
-  background-color: var(--color-Input) !important;
 }
 
-/* Customize Number */
-.FormNewFeature input[type='number']::-webkit-inner-spin-button,
-.FormNewFlat input[type='number']::-webkit-inner-spin-button,
-.FormNewFlat input[type='number']::-webkit-outer-spin-button {
+select:disabled { cursor: default;}
+
+/*
+  ***********************************
+  ******** Customize Number *********
+  ***********************************
+*/
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-/* Customize Flie */
-.settingForm input[type='file']::-webkit-file-upload-button,
-.FormNewFlat input[type='file']::-webkit-file-upload-button { display: none; }
+/*
+  *****************************
+  ******* Customize Flie ******
+  *****************************
+*/
+input[type='file']::-webkit-file-upload-button { display: none; }
 
-.settingForm .uploadImg,
-.FormNewFlat .uploadImg {
+.uploadImg {
   cursor: pointer;
-  background: var(--color-Input) !important;
-  border: 1px solid var(--color-Input) !important;
+  background: var(--color-InputBoxShadowSelect) !important;
+  border: 1px solid var(--color-InputBoxShadowSelect) !important;
   color: var(--color-SecondaryText) !important;
 }
 
-/* Customize Modal */
+.FormNewFlat .lineBeforFeature::after{
+  content: "";
+  display: block;
+  height: 2px;
+  background-color: var(--color-PrimaryText);
+  margin: 20px 0
+}
+
+/*
+  *********************************
+  ******** Customize Modal ********
+  *********************************
+*/
 .blur { filter: blur(5px);}
 
 /* End Add Flat */
 
-/* Start Section */
+/* Start Home Page */
+
+.Carousel .CarouselMoving {
+  width: 15px !important;
+  height: 15px !important;
+  border: 1px solid black !important;
+  border-radius: 50% !important;
+}
+
+.SectionFlatsShow h1::after{
+  content: '';
+  display: block;
+  width: 65px;
+  height: 3px;
+  background-color: var(--color-PrimaryText);
+  margin: 15px auto;
+}
+
+.SectionFlatsShow .Pagination { border: 1px solid var(--color-PrimaryText); color: var(--color-SecondaryText);}
+
+.SectionFlatsShow .Pagination:hover{ color: var(--color-PrimaryText);}
+
+.SectionFlatsShow .active { background-color: var(--color-BackgroundElement); color: var(--color-PrimaryText);}
 
 .first, .two, .three {
     -webkit-background-size: cover;
@@ -238,7 +390,7 @@ body {
 
 .three .th { margin-bottom: 20px; padding: 15px; }
 
-/* End Section */
+/* End Home Page */
 
 /* Start Footer */
 
@@ -270,9 +422,116 @@ body {
 
 /* End Footer */
 
+/*
+  ****************************************
+  ****** Group BackgroundElement *********
+  ****************************************
+*/
+.SiteSettings #CustomImageLogo,
 .navbar, .offcanvas, .modal-content, .navbar .user-icon, .offcanvas .user-icon,
 .offcanvas .offcanvas-body .nav-link,
 .offcanvas .offcanvas-footer,
-.card{
+.offcanvas .offcanvas-body  .accordion-item ,
+.offcanvas .offcanvas-body .accordion-item .one,
+.SectionFlatsShow .accordion-button,
+.SectionFlatsShow .accordion-item,
+.card, .accordionAddFeaturesFlat .accordion-item, .accordionAddFeaturesFlat .accordion-button{
   background-color: var(--color-BackgroundElement);
 }
+
+/*
+*******************************************
+*************** Js Table ******************
+*******************************************
+*/
+.dt-container{
+  position:relative;
+  display:block;
+  width:100%;
+  overflow-x:auto;
+  overflow-y:hidden
+}
+
+.dt-container .dt-message{text-align:center}
+
+.dt-top,.dt-bottom{padding:8px 0;display:flex;justify-content:space-between}
+
+.dt-dropdown, .dt-bottom, .dt-pagination ul { color: var(--color-SecondaryText);}
+
+.dt-top .dt-selector, .dt-bottom .dt-selector{ padding:4px; cursor: pointer;}
+
+.dt-top .dt-selector:focus, .dt-bottom .dt-selector:focus, .dt-input:focus{ outline: none; }
+
+.dt-top .dt-info,.dt-bottom .dt-info{margin:7px 0}
+
+.dt-input{ padding:6px 12px; }
+
+.dt-pagination ul{margin:0;padding-left:0}
+
+.dt-pagination ul li{list-style:none;float:left}
+
+.dt-pagination a,.dt-pagination span{
+  border:1px solid transparent;
+  float:left;
+  margin-left:2px;
+  padding:6px 12px;
+  position:relative;
+  text-decoration:none;
+  color:inherit
+}
+
+.dt-pagination a:hover{ color: var(--color-PrimaryText); }
+
+.dt-pagination .active a,.dt-pagination .active a:focus,.dt-pagination .active a:hover{
+  color: var(--color-PrimaryText);
+}
+.dt-pagination .dt-ellipsis span{cursor:not-allowed}
+
+.dt-pagination .disabled a,.dt-pagination .disabled a:focus,.dt-pagination .disabled a:hover{
+  cursor:not-allowed;
+  opacity:0.4
+}
+
+.dt-table{max-width:100%;width:100%;border-spacing:0}
+
+.dt-table>tbody>tr>td,
+.dt-table>tbody>tr>th,
+.dt-table>tfoot>tr>td,
+.dt-table>tfoot>tr>th,
+.dt-table>thead>tr>td,
+.dt-table>thead>tr>th{
+  vertical-align:top;
+  /* padding:8px 10px; */
+  white-space:nowrap
+}
+
+.dt-table>thead>tr>th,.dt-table>thead>tr>td{
+  vertical-align:bottom;
+  text-align:left;
+  border-bottom:1px solid var(--color-SecondaryText)
+}
+
+.dt-table th.dt-sorter{
+  position:relative;
+  cursor:pointer;
+  /* padding-right:20px */
+}
+
+.dt-table th.dt-sorter::before,.dt-table th.dt-sorter::after{
+  content:"";
+  height:0;
+  width:0;
+  position:absolute;
+  right:7px;
+  border-left:4px solid transparent;
+  border-right:4px solid transparent;
+  opacity:0.2
+}
+
+.dt-table th.dt-sorter::before{border-top:4px solid var(--color-SecondaryText);top:18px}
+
+.dt-table th.dt-sorter::after{border-bottom:4px solid var(--color-SecondaryText);border-top:4px solid transparent;bottom:22px}
+
+.dt-table th.dt-sorter.asc::after,.dt-table th.dt-sorter.desc::before{opacity:0.6}
+
+.hidden{display:none !important;opacity:0 !important}

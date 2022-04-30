@@ -1,7 +1,7 @@
     <!-- Start Footer -->
     <section class='footer'>
       <div class='container'>
-        <h2 class="py-2"><?php echo $lang['DaarnaHotel']; ?></h2>
+        <h2 class="py-2"><?php echo $lang['HotelName']; ?></h2>
         <ul class='list-unstyled'>
           <div class='row'>
             <ul class="social-list mb-2">
@@ -42,7 +42,7 @@
           </div>
         </ul>
         <div class='copyright text-center'>
-          <strong><?php echo $lang['DaarnaHotel']; ?></strong><br>
+          <strong><?php echo $lang['HotelName']; ?></strong><br>
           <?php echo $lang['Copyrights']; ?> &copy; 2021 | 2022 <?php echo $lang['AllRightsAreSave']; ?>
         </div>
       </div>
@@ -53,27 +53,9 @@
     <script src='/Daarna-Hotel/scripts/bootstrap.bundle.min.js'></script>
     <script src='/Daarna-Hotel/scripts/all.min.js'></script>
     <script src="/Daarna-Hotel/scripts/jstable.min.js"></script>
+    <script src="/Daarna-Hotel/scripts/dropzone.min.js"></script>
     <script src='/Daarna-Hotel/scripts/wow.min.js'></script>
     <script>new WOW().init();</script>
-    <script src='/Daarna-Hotel/scripts/main.js'></script>
-    <script>
-      // let myTable = new JSTable("#jsTable", 
-      // {
-      //     prevText: "<i class='fa fa-chevron-right'></i>",
-      //     nextText: "<i class='fa fa-chevron-left'></i>",
-      //     labels: {
-      //         placeholder: "ابحث في الجدول ..",
-      //         perPage: `
-      //             اعرض
-      //             <select class="dt-selector"><option value="5" selected="">5</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option></select>
-      //             عناصر في كل صفحة
-      //         `,
-      //         noRows: "لم يتم العثور على نتائج",
-      //         info: "يظهر {start} من {end} من أصل {rows} سجلات",
-      //         // loading: "بتم التحميل ...",
-      //         infoFiltered: "يظهر {start} من {end} من أصل {rows} سجلات (تم البحث في {rowsTotal} سجلات)"
-      //     },
-      // });
-    </script>
+    <script src='/Daarna-Hotel/scripts/new.js'></script>
   </body>
 </html>
